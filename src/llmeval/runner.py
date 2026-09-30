@@ -41,9 +41,13 @@ def load_dataset(name: str) -> list[EvalSample]:
     return samples
 
 
-def make_judge(kind: str):
+def make_judge(kind: str, model: str | None = None):
     if kind == "stub":
         return StubJudge()
+    if kind == "groq":
+        from .judges.groq import GroqJudge
+
+        return GroqJudge(model=model or "openai/gpt-oss-120b")
     if kind == "openai_compat":
         from .judges.openai_compat import OpenAICompatJudge
 
