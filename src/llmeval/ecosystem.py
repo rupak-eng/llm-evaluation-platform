@@ -9,7 +9,6 @@ Sibling projects (knowledge-graph-rag, multi-agent-research-assistant) emit
 This adapter validates each line into ``EvalSample`` (assigning a stable
 ``sample_id`` when absent) and writes a harness-ready ``.jsonl`` fixture.
 """
-
 from __future__ import annotations
 
 import hashlib
@@ -20,14 +19,16 @@ from ..schemas import EvalSample
 
 
 def _stable_id(obj: dict) -> str:
-    h = hashlib.sha256((obj.get("input", "") + obj.get("output", "")).encode()).hexdigest()[:12]
+    h = hashlib.sha256(
+        (obj.get("input", "") + obj.get("output", "")).encode()
+    ).hexdigest()[:12]
     return f"eco-{h}"
 
 
 def ingest_ecosystem_jsonl(src: str | Path, dataset: str) -> list[EvalSample]:
     samples: list[EvalSample] = []
     with open(src) as f:
-        for _, line in enumerate(f):
+        for i, line in enumerate(f):
             line = line.strip()
             if not line:
                 continue

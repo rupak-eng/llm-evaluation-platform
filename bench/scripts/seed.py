@@ -3,7 +3,6 @@
 Usage: make seed   (or: python bench/scripts/seed.py)
 Idempotent: upserts samples, appends labels only if none exist for the dataset.
 """
-
 from __future__ import annotations
 
 import json

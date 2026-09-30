@@ -8,11 +8,10 @@ Schema (SQLAlchemy Core + ORM):
   bias_reports  — bias test results per run
 Tables are created with checkfirst=True (safe on fresh DBs).
 """
-
 from __future__ import annotations
 
-import os
-from datetime import UTC, datetime
+import json
+from datetime import datetime
 
 from sqlalchemy import (
     JSON,
@@ -45,7 +44,7 @@ class HumanLabelRow(Base):
     labeler = Column(String, nullable=False)
     scores = Column(JSON, nullable=False)
     note = Column(Text, default="")
-    labeled_at = Column(DateTime, default=lambda: datetime.now(UTC))
+    labeled_at = Column(DateTime, default=datetime.utcnow)
 
 
 class EvalRun(Base):
@@ -54,7 +53,7 @@ class EvalRun(Base):
     judge_name = Column(String, nullable=False)
     dataset = Column(String, nullable=False)
     n_samples = Column(Integer, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
+    created_at = Column(DateTime, default=datetime.utcnow)
     mean_scores = Column(JSON, default=dict)
     config = Column(JSON, default=dict)
 
@@ -82,14 +81,7 @@ class BiasReportRow(Base):
 
 class Store:
     def __init__(self, database_url: str):
-        connect_args: dict = (
-            {"check_same_thread": False} if database_url.startswith("sqlite") else {}
-        )
-        # Shared local Postgres: isolate our tables in their own schema so we
-        # don't clash with sibling projects. Set LLMEVAL_DB_SCHEMA=llmeval.
-        schema = os.environ.get("LLMEVAL_DB_SCHEMA")
-        if schema and database_url.startswith("postgresql"):
-            connect_args["options"] = f"-csearch_path={schema},public"
+        connect_args = {"check_same_thread": False} if database_url.startswith("sqlite") else {}
         self.engine = create_engine(database_url, connect_args=connect_args)
         Base.metadata.create_all(self.engine, checkfirst=True)
         self.Session = sessionmaker(bind=self.engine)
@@ -129,7 +121,7 @@ class Store:
                     "labeler": r.labeler,
                     "scores": r.scores,
                     "note": r.note,
-                    "labeled_at": (r.labeled_at or datetime.now(UTC)).isoformat(),
+                    "labeled_at": (r.labeled_at or datetime.utcnow()).isoformat(),
                 }
                 for r in rows
             ]
@@ -138,11 +130,6 @@ class Store:
     def save_run(self, run: dict, scores: list[dict], bias: list[dict] | None = None) -> None:
         with self.Session() as s:
             s.add(EvalRun(**run))
-            # Flush the parent row first. Without relationship()s the unit of
-            # work cannot see the FK dependency and orders new objects
-            # alphabetically by mapper name ("BiasReportRow" < "EvalRun"),
-            # which violates the FK on Postgres (SQLite never enforced it).
-            s.flush()
             for sc in scores:
                 s.add(JudgeScore(**sc))
             for b in bias or []:
@@ -158,7 +145,7 @@ class Store:
                     "judge_name": r.judge_name,
                     "dataset": r.dataset,
                     "n_samples": r.n_samples,
-                    "created_at": (r.created_at or datetime.now(UTC)).isoformat(),
+                    "created_at": (r.created_at or datetime.utcnow()).isoformat(),
                     "mean_scores": r.mean_scores or {},
                     "config": r.config or {},
                 }
@@ -167,7 +154,9 @@ class Store:
 
     def get_run_scores(self, run_id: str) -> list[dict]:
         with self.Session() as s:
-            rows = s.execute(select(JudgeScore).where(JudgeScore.run_id == run_id)).scalars().all()
+            rows = (
+                s.execute(select(JudgeScore).where(JudgeScore.run_id == run_id)).scalars().all()
+            )
             return [
                 {
                     "sample_id": r.sample_id,
