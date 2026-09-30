@@ -1,1 +1,0 @@
-{"sample_id": "cost-001", "input": "Which customer destroys our margins?", "output": "Acme Corp is margin-negative at -4.2% on $182k of AI spend. [e1]", "contexts": [{"text": "Acme Corp net margin -4.2% on $182k spend.", "source": "billing", "chunk_id": "e1"}], "expected": "", "metadata": {"source_repo": "ai-cost-doctor"}}

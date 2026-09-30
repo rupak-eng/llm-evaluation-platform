@@ -10,7 +10,6 @@
    the mean score difference. With deterministic stub judges this is an
    exact pipeline test; with LLM judges it measures real self-preference.
 """
-
 from __future__ import annotations
 
 import copy
@@ -23,9 +22,7 @@ from .rubric import CRITERIA
 from .schemas import EvalSample, JudgeOutput
 
 
-def pairwise_verdict(
-    judge: Callable[[EvalSample], JudgeOutput], a: EvalSample, b: EvalSample
-) -> str:
+def pairwise_verdict(judge: Callable[[EvalSample], JudgeOutput], a: EvalSample, b: EvalSample) -> str:
     """Which output wins: 'a', 'b', or 'tie', by mean criterion score."""
     sa = judge(a)
     sb = judge(b)
@@ -69,7 +66,9 @@ def position_bias(
     }
 
 
-def length_bias(judge: Callable[[EvalSample], JudgeOutput], samples: list[EvalSample]) -> dict:
+def length_bias(
+    judge: Callable[[EvalSample], JudgeOutput], samples: list[EvalSample]
+) -> dict:
     """Spearman rho between output word count and mean judge score."""
     lengths, scores = [], []
     for s in samples:
@@ -124,7 +123,6 @@ def self_preference(
 
     Positive delta for a judge means it scores its own style higher.
     """
-
     def mean(judge, samples):
         tot, n = 0, 0
         for s in samples:
@@ -133,9 +131,6 @@ def self_preference(
             n += 1
         return tot / n if n else 0.0
 
-    def _name(judge) -> str:
-        return getattr(getattr(judge, "__self__", judge), "name", "?")
-
     pref_a = mean(judge_a, set_a) - mean(judge_a, set_b)
     pref_b = mean(judge_b, set_b) - mean(judge_b, set_a)
     return {
@@ -143,8 +138,8 @@ def self_preference(
         "metric": "mean_preference_delta",
         "value": (pref_a + pref_b) / 2,
         "detail": {
-            "judge_a": _name(judge_a),
-            "judge_b": _name(judge_b),
+            "judge_a": getattr(judge_a, "name", "?"),
+            "judge_b": getattr(judge_b, "name", "?"),
             "pref_a": round(pref_a, 3),
             "pref_b": round(pref_b, 3),
             "n_a": len(set_a),
@@ -153,9 +148,7 @@ def self_preference(
     }
 
 
-def make_pairs(
-    samples: list[EvalSample], seed: int = 42, n_pairs: int = 10
-) -> list[tuple[EvalSample, EvalSample]]:
+def make_pairs(samples: list[EvalSample], seed: int = 42, n_pairs: int = 10) -> list[tuple[EvalSample, EvalSample]]:
     rng = random.Random(seed)
     idx = list(range(len(samples)))
     rng.shuffle(idx)

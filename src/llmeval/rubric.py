@@ -10,7 +10,6 @@ token ``[chunk_id]`` that must match a ``chunk_id`` in the sample's contexts.
 The sentence carrying the citation is the "claim"; it is checked against the
 cited chunk's text.
 """
-
 from __future__ import annotations
 
 CRITERIA = [
@@ -52,11 +51,7 @@ def conciseness_score(output_words: int, expected_words: int) -> tuple[int, dict
         s = 2
     else:
         s = 1
-    return s, {
-        "output_words": output_words,
-        "expected_words": expected_words,
-        "ratio": round(ratio, 3),
-    }
+    return s, {"output_words": output_words, "expected_words": expected_words, "ratio": round(ratio, 3)}
 
 
 RUBRIC_TEXT = """
