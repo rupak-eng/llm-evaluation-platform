@@ -1,0 +1,72 @@
+{
+  "test": "position_bias",
+  "metric": "flip_rate",
+  "value": 0.0,
+  "detail": {
+    "n_pairs": 8,
+    "n_flips": 0,
+    "pairs": [
+      {
+        "a": "rd-mediocre",
+        "b": "seg-broken",
+        "verdict_order1": "a",
+        "verdict_order2_mapped": "a",
+        "flipped": false
+      },
+      {
+        "a": "cust-mediocre",
+        "b": "legal-broken",
+        "verdict_order1": "a",
+        "verdict_order2_mapped": "a",
+        "flipped": false
+      },
+      {
+        "a": "capex-mediocre",
+        "b": "ceo-good",
+        "verdict_order1": "b",
+        "verdict_order2_mapped": "b",
+        "flipped": false
+      },
+      {
+        "a": "margin-broken",
+        "b": "seg-good",
+        "verdict_order1": "b",
+        "verdict_order2_mapped": "b",
+        "flipped": false
+      },
+      {
+        "a": "cust-broken",
+        "b": "debt-good",
+        "verdict_order1": "b",
+        "verdict_order2_mapped": "b",
+        "flipped": false
+      },
+      {
+        "a": "cust-good",
+        "b": "legal-mediocre",
+        "verdict_order1": "a",
+        "verdict_order2_mapped": "a",
+        "flipped": false
+      },
+      {
+        "a": "div-broken",
+        "b": "capex-good",
+        "verdict_order1": "b",
+        "verdict_order2_mapped": "b",
+        "flipped": false
+      },
+      {
+        "a": "debt-mediocre",
+        "b": "div-good",
+        "verdict_order1": "b",
+        "verdict_order2_mapped": "b",
+        "flipped": false
+      }
+    ]
+  },
+  "provenance": {
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "measured_utc": "2026-09-30T07:19:49.936573+00:00"
+  }
+}

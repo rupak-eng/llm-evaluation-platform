@@ -71,6 +71,7 @@ def main() -> int:
     samples, labels = load_calibration()
     if args.limit:
         samples = samples[: args.limit]
+    all_samples = list(samples)  # full set, before resume filtering
     judge = GroqJudge(model=args.model)
     started = datetime.now(UTC)
     wall0 = time.perf_counter()
@@ -133,7 +134,7 @@ def main() -> int:
             f.write(json.dumps(r) + "\n")
     print(f"wrote raw {raw_dest} ({len(clean)}/{len(outputs)} clean)")
     common = [
-        s.sample_id for s in samples if s.sample_id in labels and not by_id[s.sample_id].errors
+        s.sample_id for s in all_samples if s.sample_id in labels and not by_id[s.sample_id].errors
     ]
     human = {c: [labels[s][c] for s in common] for c in CRITERIA}
     js = {c: [by_id[s].by_criterion()[c].score for s in common] for c in CRITERIA}
