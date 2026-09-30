@@ -1,0 +1,1 @@
+{"sample_id": "res-001", "input": "Summarize Meridian's debt position.", "output": "Meridian holds $1.2B in long-term debt at a 4.1% average rate. [s1]", "contexts": [{"text": "Long-term debt stood at $1.2B with a weighted average rate of 4.1%.", "source": "10k", "chunk_id": "s1"}], "expected": "", "metadata": {"source_repo": "llm-research-agent"}}
