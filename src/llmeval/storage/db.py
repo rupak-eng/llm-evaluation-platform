@@ -8,9 +8,9 @@ Schema (SQLAlchemy Core + ORM):
   bias_reports  — bias test results per run
 Tables are created with checkfirst=True (safe on fresh DBs).
 """
+
 from __future__ import annotations
 
-import json
 from datetime import datetime
 
 from sqlalchemy import (
@@ -154,9 +154,7 @@ class Store:
 
     def get_run_scores(self, run_id: str) -> list[dict]:
         with self.Session() as s:
-            rows = (
-                s.execute(select(JudgeScore).where(JudgeScore.run_id == run_id)).scalars().all()
-            )
+            rows = s.execute(select(JudgeScore).where(JudgeScore.run_id == run_id)).scalars().all()
             return [
                 {
                     "sample_id": r.sample_id,

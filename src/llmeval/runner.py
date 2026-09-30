@@ -6,6 +6,7 @@ Usage:
 
 Produces bench/results/<run_id>.json and persists the run to the DB.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -111,7 +112,13 @@ def run_eval(dataset: str, judge_kind: str, run_id: str | None = None) -> dict:
         for s in o.scores
     ]
     bias_rows = [
-        {"run_id": run_id, "test": b["test"], "metric": b["metric"], "value": b["value"], "detail": b["detail"]}
+        {
+            "run_id": run_id,
+            "test": b["test"],
+            "metric": b["metric"],
+            "value": b["value"],
+            "detail": b["detail"],
+        }
         for b in biases
     ]
     store.save_run(
@@ -157,7 +164,9 @@ def main(argv: list[str] | None = None) -> int:
     except Exception:
         log.exception("eval run failed")
         return 1
-    print(json.dumps({k: result[k] for k in ("run_id", "judge", "mean_scores", "kappas")}, indent=2))
+    print(
+        json.dumps({k: result[k] for k in ("run_id", "judge", "mean_scores", "kappas")}, indent=2)
+    )
     return 0
 
 
