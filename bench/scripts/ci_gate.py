@@ -9,10 +9,12 @@ Steps:
 
 Usage: make ci-local   (or: python bench/scripts/ci_gate.py)
 """
+
 from __future__ import annotations
 
 import json
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
@@ -26,7 +28,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def main() -> int:
     baseline = load_baseline(ROOT / "bench" / "results" / "baseline.json")
-    result = run_eval("calibration", "stub", run_id="ci-gate")
+    # timestamped run id: repeated CI runs must not overwrite each other's DB row
+    run_id = f"ci-gate-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}"
+    result = run_eval("calibration", "stub", run_id=run_id)
     verdict = check_regression(
         baseline,
         result["mean_scores"],

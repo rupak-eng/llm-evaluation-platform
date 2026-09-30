@@ -1,0 +1,18 @@
+degraded mean scores: {
+  "citation_precision": 1.0,
+  "citation_recall": 1.0,
+  "faithfulness": 3.133,
+  "answer_f1": 2.433,
+  "conciseness": 4.833
+}
+verdict passed: False
+  citation_precision   delta=-68.8%
+  citation_recall      delta=-62.0%
+  faithfulness         delta=+0.0%
+  answer_f1            delta=+0.0%
+  conciseness          delta=+0.0%
+  FAIL: citation_precision: dropped -68.8% (baseline 3.200 -> current 1.000), threshold -15%
+  FAIL: citation_recall: dropped -62.0% (baseline 2.633 -> current 1.000), threshold -15%
+verdict -> /home/hatch/workspace/portfolio/llm-evaluation-platform/demo/degraded-verdict.json
+GATE CORRECTLY REJECTED the degraded variant
+exit_code=2
