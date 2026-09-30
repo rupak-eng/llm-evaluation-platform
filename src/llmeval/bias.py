@@ -133,6 +133,9 @@ def self_preference(
             n += 1
         return tot / n if n else 0.0
 
+    def _name(judge) -> str:
+        return getattr(getattr(judge, "__self__", judge), "name", "?")
+
     pref_a = mean(judge_a, set_a) - mean(judge_a, set_b)
     pref_b = mean(judge_b, set_b) - mean(judge_b, set_a)
     return {
@@ -140,8 +143,8 @@ def self_preference(
         "metric": "mean_preference_delta",
         "value": (pref_a + pref_b) / 2,
         "detail": {
-            "judge_a": getattr(judge_a, "name", "?"),
-            "judge_b": getattr(judge_b, "name", "?"),
+            "judge_a": _name(judge_a),
+            "judge_b": _name(judge_b),
             "pref_a": round(pref_a, 3),
             "pref_b": round(pref_b, 3),
             "n_a": len(set_a),

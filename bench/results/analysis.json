@@ -1,0 +1,160 @@
+{
+  "disagreements_top5": [
+    {
+      "sample_id": "div-broken",
+      "total_gap": 9,
+      "human": {
+        "citation_precision": 1,
+        "citation_recall": 1,
+        "faithfulness": 1,
+        "answer_f1": 1,
+        "conciseness": 5
+      },
+      "judge": {
+        "citation_precision": 5,
+        "citation_recall": 1,
+        "faithfulness": 5,
+        "answer_f1": 2,
+        "conciseness": 5
+      }
+    },
+    {
+      "sample_id": "seg-mediocre",
+      "total_gap": 6,
+      "human": {
+        "citation_precision": 2,
+        "citation_recall": 3,
+        "faithfulness": 3,
+        "answer_f1": 4,
+        "conciseness": 3
+      },
+      "judge": {
+        "citation_precision": 2,
+        "citation_recall": 1,
+        "faithfulness": 2,
+        "answer_f1": 2,
+        "conciseness": 4
+      }
+    },
+    {
+      "sample_id": "rev-mediocre",
+      "total_gap": 5,
+      "human": {
+        "citation_precision": 1,
+        "citation_recall": 1,
+        "faithfulness": 3,
+        "answer_f1": 4,
+        "conciseness": 3
+      },
+      "judge": {
+        "citation_precision": 1,
+        "citation_recall": 1,
+        "faithfulness": 1,
+        "answer_f1": 1,
+        "conciseness": 3
+      }
+    },
+    {
+      "sample_id": "margin-mediocre",
+      "total_gap": 5,
+      "human": {
+        "citation_precision": 5,
+        "citation_recall": 2,
+        "faithfulness": 3,
+        "answer_f1": 4,
+        "conciseness": 4
+      },
+      "judge": {
+        "citation_precision": 5,
+        "citation_recall": 1,
+        "faithfulness": 2,
+        "answer_f1": 2,
+        "conciseness": 5
+      }
+    },
+    {
+      "sample_id": "capex-mediocre",
+      "total_gap": 5,
+      "human": {
+        "citation_precision": 5,
+        "citation_recall": 5,
+        "faithfulness": 2,
+        "answer_f1": 3,
+        "conciseness": 4
+      },
+      "judge": {
+        "citation_precision": 5,
+        "citation_recall": 1,
+        "faithfulness": 2,
+        "answer_f1": 2,
+        "conciseness": 4
+      }
+    }
+  ],
+  "self_preference": {
+    "test": "self_preference",
+    "metric": "mean_preference_delta",
+    "value": 0.31666666666666643,
+    "detail": {
+      "judge_a": "styled-stub:verbose",
+      "judge_b": "styled-stub:terse",
+      "pref_a": 0.317,
+      "pref_b": 0.317,
+      "n_a": 12,
+      "n_b": 12
+    }
+  },
+  "self_preference_control_plain_stub": {
+    "test": "self_preference",
+    "metric": "mean_preference_delta",
+    "value": 0.0,
+    "detail": {
+      "judge_a": "stub",
+      "judge_b": "stub",
+      "pref_a": 0.0,
+      "pref_b": 0.0,
+      "n_a": 12,
+      "n_b": 12
+    }
+  },
+  "regression_demo": {
+    "baseline_means": {
+      "citation_precision": 3.2,
+      "citation_recall": 2.633,
+      "faithfulness": 3.133,
+      "answer_f1": 2.433,
+      "conciseness": 4.833
+    },
+    "degraded_means": {
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "faithfulness": 3.133,
+      "answer_f1": 2.433,
+      "conciseness": 4.833
+    },
+    "verdict": {
+      "passed": false,
+      "deltas": {
+        "citation_precision": -0.6875,
+        "citation_recall": -0.6202,
+        "faithfulness": 0.0,
+        "answer_f1": 0.0,
+        "conciseness": 0.0
+      },
+      "kappa_deltas": {
+        "citation_precision": 0.0,
+        "citation_recall": 0.0,
+        "faithfulness": 0.0,
+        "answer_f1": 0.0,
+        "conciseness": 0.0,
+        "overall": 0.0
+      },
+      "threshold_max_drop": 0.15,
+      "threshold_min_kappa": 0.4,
+      "failures": [
+        "citation_precision: dropped -68.8% (baseline 3.200 -> current 1.000), threshold -15%",
+        "citation_recall: dropped -62.0% (baseline 2.633 -> current 1.000), threshold -15%"
+      ]
+    }
+  }
+}
