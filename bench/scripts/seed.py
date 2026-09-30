@@ -39,6 +39,8 @@ def main() -> None:
             if not line:
                 continue
             lb = json.loads(line)
+            if "_dataset" in lb:  # dataset-level provenance header, not a label
+                continue
             if lb["sample_id"] in existing:
                 continue
             store.add_human_label(lb["sample_id"], lb["labeler"], lb["scores"], lb.get("note", ""))

@@ -1,7 +1,7 @@
 # LLM Evaluation Platform
 
 A production-style **LLM-as-judge** evaluation platform for RAG systems:
-exact rubric, structured judge outputs, a hand-labeled calibration set,
+exact rubric, structured judge outputs, a manually rubric-labeled 30-item calibration set,
 agreement + bias analysis, a CI regression gate, eval history in Postgres,
 and a human-labeling dashboard.
 
@@ -12,14 +12,14 @@ wrong chunk, claims the retrieved context doesn't support, fluent but empty
 answers. This platform scores answers against a **5-criterion rubric** with
 two judges — a deterministic rule-based judge for CI and a real Groq LLM
 judge for semantic depth — and proves each judge's quality by measuring
-**agreement against human labels** (quadratic-weighted Cohen's κ, Spearman ρ).
+**agreement against reference labels** (quadratic-weighted Cohen's κ, Spearman ρ).
 
 ## Architecture
 
 ```mermaid
 flowchart LR
     subgraph inputs ["Inputs"]
-        CAL["calibration.jsonl\n30 hand-labeled items"]
+        CAL["calibration.jsonl\n30 rubric-labeled items"]
         ECO["ecosystem adapters\nrag-chatbot · ai-cost-doctor\nllm-research-agent"]
     end
     subgraph judges ["Judges"]
@@ -63,7 +63,7 @@ flowchart TD
     A["actions: push / PR"] --> B["ruff + pytest"]
     B --> C["seed calibration\nPostgres"]
     C --> D["stub eval\n30 samples"]
-    D --> E["agreement vs\nhuman labels"]
+    D --> E["agreement vs\nreference labels"]
     E --> F{"check_regression\nvs baseline.json"}
     F -->|drop > 15% or κ < 0.40| G["FAIL · exit 1"]
     F -->|otherwise| H["PASS · upload artifacts"]
@@ -75,7 +75,7 @@ flowchart TD
 git clone https://github.com/rupak-eng/llm-evaluation-platform
 cd llm-evaluation-platform
 make setup && make test          # 30 pytest, ruff
-make seed                        # load calibration set + human labels
+make seed                        # load calibration set + reference labels
 
 # local dev against the shared portfolio Postgres:
 export DATABASE_URL=postgresql+psycopg2://portfolio:<dev-password>@127.0.0.1:5432/portfolio
@@ -143,14 +143,14 @@ curl localhost:8020/runs/pg-portfolio-001
    10 scenarios (revenue, margin, CEO, concentration, segments, debt, R&D,
    capex, litigation, dividends) × good / mediocre / broken. Corpus is
    explicitly fictional ("Meridian Dynamics FY2024 10-K-style").
-2. **Human labels** — `human_label/seed_labels.jsonl`, labeler
+2. **Reference labels** — `human_label/seed_labels.jsonl`, labeler
    `manual-rubric-pass-v1` (labeled by the engineering agent against the
    written rubric; see `human_label/LABELING_GUIDE.md`). Honest provenance:
    not presented as third-party annotation.
 3. **Rubric** — 5 criteria, 1–5 ordinal each: citation_precision,
    citation_recall, faithfulness, answer_f1, conciseness.
 4. **Agreement** — quadratic-weighted Cohen's κ + Spearman ρ per criterion
-   and overall, judge vs human labels. Implementation hand-rolled
+   and overall, judge vs reference labels. Implementation hand-rolled
    (`src/llmeval/agreement.py`), cross-checked in tests.
 5. **Bias** — position flip rate (pairwise, both orders), output-length vs
    score Spearman, self-preference (styled-judge delta + two-model
@@ -162,7 +162,7 @@ curl localhost:8020/runs/pg-portfolio-001
 All numbers below are read from committed artifacts in `bench/results/`.
 Nothing here is estimated or invented.
 
-### Deterministic stub judge vs human labels (n=30)
+### Deterministic stub judge vs reference labels (n=30)
 
 | Criterion | Mean | Weighted κ | Spearman ρ |
 |---|---|---:|---:|
@@ -175,7 +175,7 @@ Nothing here is estimated or invented.
 
 Source: `bench/results/baseline-stub-001.json`, `bench/results/analysis.json`.
 
-### Real provider: Groq `openai/gpt-oss-120b` vs human labels (n=30)
+### Real provider: Groq `openai/gpt-oss-120b` vs reference labels (n=30)
 
 | Criterion | Mean | Weighted κ | Spearman ρ |
 |---|---|---:|---:|
@@ -186,7 +186,7 @@ Source: `bench/results/baseline-stub-001.json`, `bench/results/analysis.json`.
 | conciseness | 4.833 | 0.640 | 0.686 |
 | **overall** | — | **0.984** | **0.968** |
 
-### Cross-judge agreement (overall weighted κ vs the same 30 hand labels)
+### Cross-judge agreement (overall weighted κ vs the same 30 reference labels)
 
 | Judge | n clean | Overall κ | Worst criterion |
 |---|---|---:|---|

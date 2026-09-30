@@ -7,13 +7,16 @@ results. If an interviewer probes deeper, the file/artifact to open is named.
 
 "I built an LLM-as-judge evaluation platform: a five-criterion rubric on a
 1–5 ordinal scale, a deterministic rule-based judge for CI, a real Groq
-LLM judge emitting structured Pydantic scores, a 30-item hand-labeled
-calibration set, agreement metrics (quadratic-weighted Cohen's kappa,
-Spearman), bias probes (position, length, self-preference), a regression
-gate that fails CI on quality drops, eval history in Postgres, a Streamlit
-dashboard with a human-labeling UI, and adapters so sibling RAG projects can
-plug in. The deterministic judge agrees with my hand labels at overall
-κ=0.907; the Groq gpt-oss-120b judge at κ=0.984."
+LLM judge emitting structured Pydantic scores, a 30-item manually
+rubric-labeled calibration set (reference labels produced by the
+engineering agent applying the rubric by hand — documented as such in
+`human_label/LABELING_GUIDE.md`, not independent human annotation),
+agreement metrics (quadratic-weighted Cohen's kappa, Spearman), bias probes
+(position, length, self-preference), a regression gate that fails CI on
+quality drops, eval history in Postgres, a Streamlit dashboard with a
+labeling UI, and adapters so sibling RAG projects can plug in. The
+deterministic judge agrees with the reference labels at overall κ=0.907;
+the Groq gpt-oss-120b judge at κ=0.984."
 
 ## Questions you can now answer cold
 
@@ -27,17 +30,20 @@ whether citations point at supporting chunks. See `bench/results/analysis.json`
 top_disagreements.
 
 **How do you know the judge is any good?**
-Agreement against 30 hand labels: quadratic-weighted kappa per criterion
-plus Spearman. Weighted kappa penalizes a 1-vs-5 disagreement more than a
-4-vs-5, which matches how much we care. Implementation is hand-rolled in
-`src/llmeval/agreement.py` and cross-checked against independent
-observed/expected arithmetic in tests.
+Agreement against 30 manual rubric reference labels: quadratic-weighted
+kappa per criterion plus Spearman. Weighted kappa penalizes a 1-vs-5
+disagreement more than a 4-vs-5, which matches how much we care.
+Implementation is hand-rolled in `src/llmeval/agreement.py` and cross-checked
+against independent observed/expected arithmetic in tests. (Provenance caveat:
+the labels were produced by the engineering agent applying the rubric, not by
+an independent human annotator — see `human_label/LABELING_GUIDE.md`.)
 
 **Deterministic vs LLM judge trade-off?**
 The stub judge is exact, free, and runs in CI in ~2s for 30 samples
-(κ=0.907 vs hand labels). The Groq judge (κ=0.84) reasons about semantics
-but costs tokens (~1.9k/sample, ~$0.0013/sample at gpt-oss-120b pricing),
-takes ~3s/sample, and hit 429 rate limits until I serialized requests.
+(κ=0.907 vs reference labels). The Groq gpt-oss-120b judge (κ=0.984)
+reasons about semantics but costs tokens (~2.1k tokens/sample, ~$0.0009/sample
+measured), takes seconds per call (up to ~20s under 429 backoff), and hit
+rate limits until I serialized requests with Retry-After honoring.
 Production pattern: stub in CI on every commit, LLM judge nightly or on
 release candidates.
 
