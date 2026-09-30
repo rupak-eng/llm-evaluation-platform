@@ -186,6 +186,19 @@ Source: `bench/results/baseline-stub-001.json`, `bench/results/analysis.json`.
 | conciseness | 4.833 | 0.640 | 0.686 |
 | **overall** | — | **0.984** | **0.968** |
 
+### Cross-judge agreement (overall weighted κ vs the same 30 hand labels)
+
+| Judge | n clean | Overall κ | Worst criterion |
+|---|---|---:|---|
+| Deterministic stub | 30 | 0.907 | answer_f1 0.674 |
+| Groq `openai/gpt-oss-120b` | 30 | 0.984 | conciseness 0.640 |
+| Groq `openai/gpt-oss-20b` | 24 | 0.936 | citation_recall 0.867 |
+
+The 20b run has 24/30 clean — 6 samples exhausted retries under 429 rate
+limits; the raw JSONL preserves them for a later `--resume` pass. Sources:
+`bench/results/groq-openai-gpt-oss-120b.json`,
+`bench/results/groq-openai-gpt-oss-20b.json`.
+
 Provenance: provider `groq`, model `openai/gpt-oss-120b` (Groq exposes the
 model id only — no separate version string), 30/30 samples judged clean,
 2026-09-30. Source: `bench/results/groq-openai-gpt-oss-120b.json`.
@@ -201,10 +214,10 @@ console.groq.com before budgeting).
 | Test | Result |
 |---|---|
 | Position flip rate (stub, 10 pairs) | 0.000 — expected: the stub is order-independent |
-| Position flip rate (Groq gpt-oss-120b, 8 pairs) | see `bench/results/position-bias-groq.json` |
+| Position flip rate (Groq gpt-oss-120b, 8 pairs) | **0.000** (0/8) — the LLM judge also showed no order flips |
 | Length vs score Spearman (stub) | ρ=0.264, p=0.158, n=30 — not significant |
 | Self-preference, styled stub | Δ=0.317 vs plain-stub control Δ=0.000 |
-| Self-preference, 3 Groq judges × 2 generator models (blind) | see `bench/results/selfpreference-groq.json` |
+| Self-preference, 3 Groq judges × 2 generator models (blind, n=8 inputs) | 120b judge Δ=−0.125, 20b judge Δ=−0.325, qwen judge Δ=+0.075 — no meaningful self-preference; all \|Δ\|≤0.325 on the 1–5 scale |
 
 ### Regression gate
 

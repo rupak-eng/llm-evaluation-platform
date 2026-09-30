@@ -108,6 +108,7 @@ def main() -> int:
         for i, g in enumerate(ex.map(_gen, jobs)):
             gen_outputs.append(g)
             print(f"  generated {i + 1}/{len(jobs)} ({g['generator']})", flush=True)
+            time.sleep(5)  # be gentle: qwen preview tier is tightly rate-limited
 
     # 2. judge blind (judges never see the generator field)
     judge_samples = [

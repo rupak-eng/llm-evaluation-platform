@@ -1,0 +1,123 @@
+{
+  "started_utc": "2026-09-30T07:21:16.609249+00:00",
+  "finished_utc": "2026-09-30T07:36:39.375996+00:00",
+  "generators": [
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b"
+  ],
+  "judges": [
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "qwen/qwen3.8-27b"
+  ],
+  "n_inputs": 8,
+  "note": "Positive self_preference_delta means the judge scored outputs from its own model family higher. Judges were blind to generator identity.",
+  "per_judge": {
+    "openai/gpt-oss-120b": {
+      "family": "gpt-oss",
+      "mean_on_120b_outputs": 4.125,
+      "mean_on_qwen_outputs": 4.25,
+      "self_preference_delta": -0.125,
+      "n_judged": 16,
+      "judge_errors": 0
+    },
+    "openai/gpt-oss-20b": {
+      "family": "gpt-oss",
+      "mean_on_120b_outputs": 3.15,
+      "mean_on_qwen_outputs": 3.475,
+      "self_preference_delta": -0.325,
+      "n_judged": 16,
+      "judge_errors": 2
+    },
+    "qwen/qwen3.8-27b": {
+      "family": "qwen",
+      "mean_on_120b_outputs": 4.525,
+      "mean_on_qwen_outputs": 4.6,
+      "self_preference_delta": 0.075,
+      "n_judged": 16,
+      "judge_errors": 0
+    }
+  },
+  "generated_outputs": [
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-rev-good-gpt-oss-120b",
+      "output": "Meridian Dynamics generated $4.82\u202fbillion in revenue for fiscal\u202f2024, which represents an 18\u202f% increase over the $4.09\u202fbillion it earned in fiscal\u202f2023\u3010md-fy24-revenue\u3011."
+    },
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-margin-good-gpt-oss-120b",
+      "output": "The increase in gross margin was driven by a richer mix of data\u2011center accelerators and lower memory costs\u3010md-fy24-margin\u3011."
+    },
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-seg-good-gpt-oss-120b",
+      "output": "The Data Center segment grew the fastest in FY\u202f2024, with revenue increasing 34%\u202f[md-fy24-segments]"
+    },
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-debt-good-gpt-oss-120b",
+      "output": "The company\u2019s long\u2011term debt totals $1.20\u202fbillion, with $400\u202fmillion due in 2027 and the remaining $800\u202fmillion scheduled to mature in 2030\u3010md-fy24-debt\u3011. Its interest\u2011coverage ratio is 11.2\u202ftimes\u3010md-fy24-debt\u3011."
+    },
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-rd-good-gpt-oss-120b",
+      "output": "R&D spending has risen each year, moving from\u202f$810\u202fmillion in 2022 to\u202f$920\u202fmillion in 2023 and then to\u202f$1.05\u202fbillion in fiscal\u202f2024\u3010md-fy24-rd\u3011."
+    },
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-capex-good-gpt-oss-120b",
+      "output": "The company\u2019s capital expenditures are being used primarily to build a new Dresden fabrication facility\u202f[md-fy24-capex]."
+    },
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-legal-good-gpt-oss-120b",
+      "output": "The Corvus Labs patent dispute was settled in October\u202f2024 for $45\u202fmillion, with no admission of liability, and there was no material litigation remaining pending at year\u2011end. [md-fy24-legal]"
+    },
+    {
+      "generator": "openai/gpt-oss-120b",
+      "sample_id": "gen-div-good-gpt-oss-120b",
+      "output": "Yes, the board raised the quarterly dividend to $0.28 per share in November\u202f2024, marking a change and the third consecutive annual increase\u3010md-fy24-dividend\u3011."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-rev-good-qwen3.8-27b",
+      "output": "Meridian Dynamics reported revenue of $4.82 billion for fiscal 2024 [md-fy24-revenue]. This represented an 18% year-over-year increase from $4.09 billion in fiscal 2023 [md-fy24-revenue]."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-margin-good-qwen3.8-27b",
+      "output": "The change in gross margin was driven by a richer mix of data-center accelerators and lower memory costs [md-fy24-margin]."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-seg-good-qwen3.8-27b",
+      "output": "The Data Center segment grew fastest in FY2024 with a 34% increase [md-fy24-segments]."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-debt-good-qwen3.8-27b",
+      "output": "Long-term debt totaled $1.20 billion at year end, with a maturity profile consisting of $400 million due in 2027 and $800 million due in 2030 [md-fy24-debt]. The interest coverage ratio was 11.2x [md-fy24-debt]."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-rd-good-qwen3.8-27b",
+      "output": "R&D spending has trended upward, increasing from $810 million in 2022 to $920 million in 2023, and reaching $1.05 billion in fiscal 2024 [md-fy24-rd]."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-capex-good-qwen3.8-27b",
+      "output": "The company is spending its capital expenditures primarily on the new Dresden fabrication facility, which is expected to begin production in the second half of 2026 [md-fy24-capex]."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-legal-good-qwen3.8-27b",
+      "output": "The patent dispute with Corvus Labs was settled in October 2024 for $45 million with no admission of liability, and no material litigation remained pending at year end [md-fy24-legal]."
+    },
+    {
+      "generator": "qwen/qwen3.8-27b",
+      "sample_id": "gen-div-good-qwen3.8-27b",
+      "output": "Yes, the dividend changed. The board raised the quarterly dividend to $0.28 per share in November 2024 [md-fy24-dividend]."
+    }
+  ]
+}
