@@ -10,6 +10,7 @@
    the mean score difference. With deterministic stub judges this is an
    exact pipeline test; with LLM judges it measures real self-preference.
 """
+
 from __future__ import annotations
 
 import copy
@@ -22,7 +23,9 @@ from .rubric import CRITERIA
 from .schemas import EvalSample, JudgeOutput
 
 
-def pairwise_verdict(judge: Callable[[EvalSample], JudgeOutput], a: EvalSample, b: EvalSample) -> str:
+def pairwise_verdict(
+    judge: Callable[[EvalSample], JudgeOutput], a: EvalSample, b: EvalSample
+) -> str:
     """Which output wins: 'a', 'b', or 'tie', by mean criterion score."""
     sa = judge(a)
     sb = judge(b)
@@ -66,9 +69,7 @@ def position_bias(
     }
 
 
-def length_bias(
-    judge: Callable[[EvalSample], JudgeOutput], samples: list[EvalSample]
-) -> dict:
+def length_bias(judge: Callable[[EvalSample], JudgeOutput], samples: list[EvalSample]) -> dict:
     """Spearman rho between output word count and mean judge score."""
     lengths, scores = [], []
     for s in samples:
@@ -123,6 +124,7 @@ def self_preference(
 
     Positive delta for a judge means it scores its own style higher.
     """
+
     def mean(judge, samples):
         tot, n = 0, 0
         for s in samples:
@@ -148,7 +150,9 @@ def self_preference(
     }
 
 
-def make_pairs(samples: list[EvalSample], seed: int = 42, n_pairs: int = 10) -> list[tuple[EvalSample, EvalSample]]:
+def make_pairs(
+    samples: list[EvalSample], seed: int = 42, n_pairs: int = 10
+) -> list[tuple[EvalSample, EvalSample]]:
     rng = random.Random(seed)
     idx = list(range(len(samples)))
     rng.shuffle(idx)
