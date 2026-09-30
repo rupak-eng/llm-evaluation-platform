@@ -2,6 +2,7 @@
 
 Writes bench/results/analysis.json. All numbers are measured, not invented.
 """
+
 from __future__ import annotations
 
 import json
@@ -16,7 +17,7 @@ from llmeval.config import settings  # noqa: E402
 from llmeval.judges.stub import StubJudge  # noqa: E402
 from llmeval.regression import check_regression  # noqa: E402
 from llmeval.rubric import CRITERIA  # noqa: E402
-from llmeval.schemas import EvalSample  # noqa: E402
+from llmeval.schemas import EvalSample, JudgeOutput  # noqa: E402
 from llmeval.storage.db import Store  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -28,7 +29,7 @@ class CitationStrippingJudge(StubJudge):
 
     name = "stub-no-citations"
 
-    def judge(self, sample: EvalSample) -> "JudgeOutput":  # type: ignore[override]
+    def judge(self, sample: EvalSample) -> JudgeOutput:  # type: ignore[override]
         from llmeval import metrics as M
 
         degraded = sample.model_copy(deep=True)
@@ -51,9 +52,8 @@ def main() -> None:
     dis = disagreements(common, human, js, CRITERIA, top=5)
 
     # self-preference: identical outputs, style tag differs only
-    base = next(s for s in samples if s.sample_id == "rev-good")
     set_a, set_b = [], []
-    for i, s in enumerate(samples[:12]):
+    for s in samples[:12]:
         a = s.model_copy(deep=True)
         b = s.model_copy(deep=True)
         a.metadata["style"] = "verbose"
