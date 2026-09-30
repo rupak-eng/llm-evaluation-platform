@@ -32,3 +32,5 @@ bench/results/scratch/
 
 # Logs
 *.log
+# deliberate demo artifact: captured gate output with nonzero exit
+!demo/degraded-gate.log
