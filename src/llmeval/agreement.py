@@ -8,6 +8,7 @@ choice for ordinal scales.
 Implemented by hand (no sklearn dependency) and unit-tested against known
 vectors, including the textbook kappa example.
 """
+
 from __future__ import annotations
 
 import math
@@ -17,7 +18,7 @@ from .schemas import AgreementResult
 
 def confusion(human: list[int], judge: list[int], k: int = 5) -> list[list[int]]:
     m = [[0] * k for _ in range(k)]
-    for h, j in zip(human, judge):
+    for h, j in zip(human, judge, strict=True):
         m[h - 1][j - 1] += 1
     return m
 
@@ -61,13 +62,15 @@ def spearman(x: list[float], y: list[float]) -> tuple[float, float | None]:
     rx, ry = _ranks([float(v) for v in x]), _ranks([float(v) for v in y])
     n = len(x)
     mx, my = sum(rx) / n, sum(ry) / n
-    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry, strict=True))
     dx = math.sqrt(sum((a - mx) ** 2 for a in rx))
     dy = math.sqrt(sum((b - my) ** 2 for b in ry))
     if dx == 0 or dy == 0:
         return 0.0, None
     rho = num / (dx * dy)
     rho = max(-1.0, min(1.0, rho))
+    if abs(abs(rho) - 1.0) < 1e-12:  # snap float dust to exact +-1
+        rho = math.copysign(1.0, rho)
     if abs(rho) >= 1.0:
         return rho, 0.0
     t = rho * math.sqrt((n - 2) / max(1e-12, 1 - rho * rho))
@@ -80,9 +83,14 @@ def _t_cdf(t: float, df: int) -> float:
     # approximation for df>=30, else Simpson integration of the t density.
     if df >= 30:
         return 0.5 * (1 + math.erf(t / math.sqrt(2)))
-    f = lambda x: math.gamma((df + 1) / 2) / (
-        math.sqrt(df * math.pi) * math.gamma(df / 2)
-    ) * (1 + x * x / df) ** (-(df + 1) / 2)
+
+    def f(x: float) -> float:
+        return (
+            math.gamma((df + 1) / 2)
+            / (math.sqrt(df * math.pi) * math.gamma(df / 2))
+            * (1 + x * x / df) ** (-(df + 1) / 2)
+        )
+
     n = 2000
     a, b = 0.0, t
     h = (b - a) / n
@@ -111,8 +119,12 @@ def agreement(
             )
         )
     # overall: mean score across criteria per item
-    ho = [sum(human[c][i] for c in criteria) / len(criteria) for i in range(len(human[criteria[0]]))]
-    jo = [sum(judge[c][i] for c in criteria) / len(criteria) for i in range(len(judge[criteria[0]]))]
+    ho = [
+        sum(human[c][i] for c in criteria) / len(criteria) for i in range(len(human[criteria[0]]))
+    ]
+    jo = [
+        sum(judge[c][i] for c in criteria) / len(criteria) for i in range(len(judge[criteria[0]]))
+    ]
     rho, p = spearman(ho, jo)
     # kappa needs integers: round the per-item means to the 1-5 scale
     hk = [max(1, min(5, round(v))) for v in ho]

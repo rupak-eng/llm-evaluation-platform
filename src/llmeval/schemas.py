@@ -12,6 +12,7 @@ The ecosystem contract (shared with the sibling portfolio projects
       "metadata": {"system": "kg-rag", "run_id": "..."}
     }
 """
+
 from __future__ import annotations
 
 from datetime import datetime
