@@ -13,18 +13,17 @@ NOTE: exercised in CI only when the optional deps are installed and
 JUDGE_API_KEY is present; the numbers reported in this repo's README come
 from the deterministic stub judge unless stated otherwise.
 """
-
 from __future__ import annotations
 
+import math
 import time
 
 from ..schemas import CriterionScore, EvalSample, JudgeOutput
 
 CRITERION_GUIDANCE = {
     "citation_precision": (
-        "Check every [chunk_id] citation in the actual output. "
-        "A citation is valid only if the chunk_id exists in the retrieval context "
-        "AND the cited claim is supported by that chunk."
+        "Check every [chunk_id] citation in the actual output. A citation is valid only if "
+        "the chunk_id exists in the retrieval context AND the cited claim is supported by that chunk."
     ),
     "citation_recall": (
         "List the key claims in the expected output. Count how many appear in the actual output "
@@ -68,7 +67,7 @@ def judge_with_deepeval(sample: EvalSample, model: str = "gpt-4o-mini") -> Judge
             name=criterion,
             criteria=guidance,
             evaluation_steps=[
-                "Read the actual output and the retrieval context.",
+                f"Read the actual output and the retrieval context.",
                 guidance,
                 "Give a score from 0 (total failure) to 10 (perfect) with reasons.",
             ],

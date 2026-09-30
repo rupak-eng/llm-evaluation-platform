@@ -6,7 +6,6 @@ run. The gate fails when:
   - overall weighted kappa drops below `min_kappa`.
 Used by the CI workflow and the local `make ci-local` gate.
 """
-
 from __future__ import annotations
 
 import json
@@ -54,7 +53,9 @@ def check_regression(
 
     overall_kappa = current_kappas.get("overall")
     if overall_kappa is not None and overall_kappa < min_kappa:
-        failures.append(f"overall weighted kappa {overall_kappa:.3f} below minimum {min_kappa:.2f}")
+        failures.append(
+            f"overall weighted kappa {overall_kappa:.3f} below minimum {min_kappa:.2f}"
+        )
 
     return RegressionVerdict(
         passed=not failures,

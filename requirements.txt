@@ -7,4 +7,3 @@ streamlit>=1.33
 numpy>=1.26
 scipy>=1.13
 pyyaml>=6.0
-ruff>=0.8

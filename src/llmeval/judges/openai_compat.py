@@ -4,7 +4,6 @@ Uses the rubric text as the system prompt and asks the model to reason first,
 then emit structured JSON matching ``JudgeOutput``. Requires
 ``JUDGE_BASE_URL`` / ``JUDGE_API_KEY`` / ``JUDGE_MODEL`` env vars.
 """
-
 from __future__ import annotations
 
 import json

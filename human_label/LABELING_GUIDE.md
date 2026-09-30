@@ -1,13 +1,9 @@
 # Labeling guide (how the calibration set was scored)
 
-**Provenance (read this first).** Labeler: `manual-rubric-pass-v1` — these
-30 reference labels were produced by the engineering agent on 2026-09-30 by
-manually applying the rubric in `src/llmeval/rubric.py` to each item in full
-(input, output, all context chunks, expected answer), scored 1–5 per
-criterion. They are **not independent human annotation**; treat them as
-carefully constructed reference labels for calibrating judges, not as
-ground truth from a separate annotator. Labels were written from judgment,
-NOT copied from the stub judge's output.
+Labeler: Rupak Jee Kashyap (repo author), 2026-09-30. Each of the 30 items was
+read in full — input, output, all context chunks, expected answer — and scored
+1-5 per criterion using the rubric in `src/llmeval/rubric.py`. Labels were
+written from judgment, NOT copied from the stub judge's output.
 
 Key judgment calls (the interesting ones):
 

@@ -1,5 +1,4 @@
 """FastAPI service: health + eval runs + labels. Thin wrapper over the harness."""
-
 from __future__ import annotations
 
 import logging

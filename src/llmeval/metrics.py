@@ -6,7 +6,6 @@ reproducible — the point of the stub judge is a *measured* pipeline, not SOTA
 semantics. The LLM judge path (judges/openai_compat.py) uses the same
 criterion definitions with model reasoning.
 """
-
 from __future__ import annotations
 
 import re
@@ -42,7 +41,6 @@ def _raw_sentences(text: str) -> list[str]:
     if rest:
         out.append(_restore_decimals(rest).strip())
     return out
-
 
 BOILERPLATE_PATTERNS = (
     "here is",
