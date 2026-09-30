@@ -16,6 +16,7 @@ Scoring computations (see rubric.py for anchor definitions):
 - answer_f1: token F1 vs expected, mapped to 1-5
 - conciseness: exact length-ratio scoring
 """
+
 from __future__ import annotations
 
 import time
@@ -75,7 +76,9 @@ class StubJudge:
         claims = _expected_claims(sample.expected)
         covered = 0
         valid_cited_claims = [
-            claim for (cid, claim), chk in zip(citations, citations_checked) if chk["valid"]
+            claim
+            for (cid, claim), chk in zip(citations, citations_checked, strict=True)
+            if chk["valid"]
         ]
         for exp_claim in claims:
             if any(
@@ -89,8 +92,7 @@ class StubJudge:
         supported = 0
         for sent in factual_sents:
             if any(
-                M.overlap_fraction(sent, c.text) >= CLAIM_SUPPORT_THRESHOLD
-                for c in sample.contexts
+                M.overlap_fraction(sent, c.text) >= CLAIM_SUPPORT_THRESHOLD for c in sample.contexts
             ):
                 supported += 1
         faith_frac = supported / len(factual_sents) if factual_sents else 1.0
@@ -118,7 +120,9 @@ class StubJudge:
             CriterionScore(
                 criterion="faithfulness",
                 score=scale_1_5(faith_frac),
-                rationale=f"{supported}/{len(factual_sents)} factual sentences supported by contexts",
+                rationale=(
+                    f"{supported}/{len(factual_sents)} factual sentences supported by contexts"
+                ),
                 measured={"fraction": round(faith_frac, 3)},
             ),
             CriterionScore(
