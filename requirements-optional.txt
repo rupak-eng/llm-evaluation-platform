@@ -1,0 +1,6 @@
+# Optional: the production-judge path. Installed only when you want the
+# DeepEval-backed judge or an OpenAI-compatible LLM judge. Core pipeline
+# (stub judge, agreement math, bias tests, regression gate, dashboard)
+# works WITHOUT these — they are lazy-imported.
+deepeval>=2.0
+openai>=1.30
