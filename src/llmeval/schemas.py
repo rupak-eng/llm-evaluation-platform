@@ -15,7 +15,7 @@ The ecosystem contract (shared with the sibling portfolio projects
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field
@@ -54,6 +54,7 @@ class JudgeOutput(BaseModel):
     citations_checked: list[dict[str, Any]] = Field(default_factory=list)
     errors: list[str] = Field(default_factory=list)
     latency_s: float = 0.0
+    usage: dict[str, Any] = Field(default_factory=dict)  # tokens, model, provider
 
     def by_criterion(self) -> dict[str, CriterionScore]:
         return {s.criterion: s for s in self.scores}
@@ -64,7 +65,7 @@ class HumanLabel(BaseModel):
     labeler: str
     scores: dict[str, int]
     note: str = ""
-    labeled_at: datetime = Field(default_factory=datetime.utcnow)
+    labeled_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
 
 class AgreementResult(BaseModel):
@@ -99,7 +100,7 @@ class EvalRunRecord(BaseModel):
     judge_name: str
     dataset: str
     n_samples: int
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     mean_scores: dict[str, float] = Field(default_factory=dict)
     config: dict[str, Any] = Field(default_factory=dict)
 
