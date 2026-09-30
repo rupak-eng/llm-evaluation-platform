@@ -3,6 +3,7 @@
 VENV=.venv
 PY=$(VENV)/bin/python
 export PIP_NO_CACHE_DIR=1
+export PYTHONPATH=src
 
 setup:
 	python3 -m venv $(VENV)
