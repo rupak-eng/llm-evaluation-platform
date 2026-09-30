@@ -1,0 +1,171 @@
+{
+  "run_id": "pg-stub-001",
+  "judge": "stub",
+  "dataset": "calibration",
+  "n_samples": 30,
+  "n_human_labeled": 30,
+  "mean_scores": {
+    "citation_precision": 3.2,
+    "citation_recall": 2.633,
+    "faithfulness": 3.133,
+    "answer_f1": 2.433,
+    "conciseness": 4.833
+  },
+  "kappas": {
+    "citation_precision": 0.93,
+    "citation_recall": 0.906,
+    "faithfulness": 0.853,
+    "answer_f1": 0.674,
+    "conciseness": 0.872,
+    "overall": 0.907
+  },
+  "agreements": [
+    {
+      "criterion": "citation_precision",
+      "n": 30,
+      "weighted_kappa": 0.9295774647887324,
+      "spearman_rho": 0.9298556699361892,
+      "spearman_p": 1.1102230246251565e-13,
+      "mean_human": 3.066666666666667,
+      "mean_judge": 3.2
+    },
+    {
+      "criterion": "citation_recall",
+      "n": 30,
+      "weighted_kappa": 0.9062778934840822,
+      "spearman_rho": 0.8954498417947934,
+      "spearman_p": 2.3848034658158213e-11,
+      "mean_human": 2.8666666666666667,
+      "mean_judge": 2.6333333333333333
+    },
+    {
+      "criterion": "faithfulness",
+      "n": 30,
+      "weighted_kappa": 0.8533519553072625,
+      "spearman_rho": 0.852925011080299,
+      "spearman_p": 2.1570119024261203e-09,
+      "mean_human": 3.1333333333333333,
+      "mean_judge": 3.1333333333333333
+    },
+    {
+      "criterion": "answer_f1",
+      "n": 30,
+      "weighted_kappa": 0.6737739872068231,
+      "spearman_rho": 0.8529155610383489,
+      "spearman_p": 2.1588206777778396e-09,
+      "mean_human": 3.3333333333333335,
+      "mean_judge": 2.433333333333333
+    },
+    {
+      "criterion": "conciseness",
+      "n": 30,
+      "weighted_kappa": 0.8723404255319154,
+      "spearman_rho": 0.8922398144274248,
+      "spearman_p": 3.568212392224268e-11,
+      "mean_human": 4.766666666666667,
+      "mean_judge": 4.833333333333333
+    },
+    {
+      "criterion": "overall",
+      "n": 30,
+      "weighted_kappa": 0.9065420560747662,
+      "spearman_rho": 0.9173578384158104,
+      "spearman_p": 1.0182965581861936e-12,
+      "mean_human": 3.433333333333333,
+      "mean_judge": 3.2466666666666666
+    }
+  ],
+  "bias": [
+    {
+      "test": "position_bias",
+      "metric": "flip_rate",
+      "value": 0.0,
+      "detail": {
+        "n_pairs": 10,
+        "n_flips": 0,
+        "pairs": [
+          {
+            "a": "rd-mediocre",
+            "b": "seg-broken",
+            "verdict_order1": "a",
+            "verdict_order2_mapped": "a",
+            "flipped": false
+          },
+          {
+            "a": "cust-mediocre",
+            "b": "legal-broken",
+            "verdict_order1": "a",
+            "verdict_order2_mapped": "a",
+            "flipped": false
+          },
+          {
+            "a": "capex-mediocre",
+            "b": "ceo-good",
+            "verdict_order1": "b",
+            "verdict_order2_mapped": "b",
+            "flipped": false
+          },
+          {
+            "a": "margin-broken",
+            "b": "seg-good",
+            "verdict_order1": "b",
+            "verdict_order2_mapped": "b",
+            "flipped": false
+          },
+          {
+            "a": "cust-broken",
+            "b": "debt-good",
+            "verdict_order1": "b",
+            "verdict_order2_mapped": "b",
+            "flipped": false
+          },
+          {
+            "a": "cust-good",
+            "b": "legal-mediocre",
+            "verdict_order1": "a",
+            "verdict_order2_mapped": "a",
+            "flipped": false
+          },
+          {
+            "a": "div-broken",
+            "b": "capex-good",
+            "verdict_order1": "b",
+            "verdict_order2_mapped": "b",
+            "flipped": false
+          },
+          {
+            "a": "debt-mediocre",
+            "b": "div-good",
+            "verdict_order1": "b",
+            "verdict_order2_mapped": "b",
+            "flipped": false
+          },
+          {
+            "a": "rev-mediocre",
+            "b": "seg-mediocre",
+            "verdict_order1": "b",
+            "verdict_order2_mapped": "b",
+            "flipped": false
+          },
+          {
+            "a": "rd-good",
+            "b": "rev-broken",
+            "verdict_order1": "a",
+            "verdict_order2_mapped": "a",
+            "flipped": false
+          }
+        ]
+      }
+    },
+    {
+      "test": "length_bias",
+      "metric": "spearman_rho_length_vs_score",
+      "value": 0.26441956868073835,
+      "detail": {
+        "n": 30,
+        "p_value": 0.15794320936262896
+      }
+    }
+  ],
+  "errors": []
+}
