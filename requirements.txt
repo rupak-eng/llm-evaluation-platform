@@ -7,3 +7,9 @@ streamlit>=1.33
 numpy>=1.26
 scipy>=1.13
 pyyaml>=6.0
+
+# CI tooling: the GitHub Actions workflow runs `.venv/bin/ruff` (lint) and
+# `.venv/bin/python -m pytest` in a fresh venv built from this file, so both
+# must be installed here.
+ruff>=0.8
+pytest>=8.0
